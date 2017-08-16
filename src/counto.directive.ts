@@ -74,7 +74,7 @@ export class CountoDirective {
         }
 
         var intermediate  = _this._countFrom;
-        var increment     = Math.abs(_this._countTo - _this._countFrom) / ((_this._duration * 1000) / _this._step);
+        var increment     = Math.round(Math.abs(_this._countTo - _this._countFrom) / ((_this._duration * 1000) / _this._step));
 
         _this.countoChange.emit(intermediate);
 
@@ -82,19 +82,19 @@ export class CountoDirective {
             if (_this._countTo < _this._countFrom) {
                 if (intermediate <= _this._countTo) {
                     clearInterval(_this._timer);
-                    _this.countoChange.emit(_this._countTo);
+                    _this.countoChange.emit(_this._countTo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     _this.countoEnd.emit();
                 } else {
-                    _this.countoChange.emit(intermediate);
+                    _this.countoChange.emit(intermediate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     intermediate -= increment;
                 }
             } else {
                 if (intermediate >= _this._countTo) {
                     clearInterval(_this._timer);
-                    _this.countoChange.emit(_this._countTo);
+                    _this.countoChange.emit(_this._countTo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     _this.countoEnd.emit();
                 } else {
-                    _this.countoChange.emit(intermediate);
+                    _this.countoChange.emit(intermediate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     intermediate += increment;
                 }
             }
